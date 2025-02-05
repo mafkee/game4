@@ -1,0 +1,138 @@
+
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="rs/game.css">
+    <title>Geometry Dash Breeze</title>
+   </head>
+
+  <body>
+    <div id="gameContainer"></div>
+    <div id="loader">
+      <img class="logo" src="image/breezeloading.png">
+      <div class="spinner"></div>
+      <div class=" pos_progress">
+        <div class="progress">
+            <div class="posfull">
+            <img class="full" src="image/process_bar_back.png">
+            </div>
+            <div class="posbox">
+                <img class="box_process" src="image/process_bar_front.png">
+            </div>
+        </div>
+    </div>
+  </body>
+  <script>
+    function UnityCallPlayJs() {
+      console.log("untiy call play game");
+    }
+    function UnityCallAgainJs() {
+      console.log("unity call again");
+    }
+    function UnityCallReturnHomeJs() {
+      console.log("untiy call return home");
+    }
+    function UnityCallChooseLevelJs() {
+      console.log("untiy call choose level");
+    }
+    function UnityCallCloseLeaderboardJs() {
+      console.log("untiy call close leaderboard");
+    }
+    function UnityCallChooseCharacterJs() {
+      console.log("untiy call choose character");
+    }
+    function UnityCallChooseColorJs() {
+      console.log("untiy call choose color");
+    }
+    function UnityCallEndgameJs() {
+      console.log("untiy call end game");
+    }
+    function UnityCallContinueJs() {
+      console.log("untiy call continue");
+    }
+    function UnityCallChangeModeJs() {
+      console.log("untiy call change mode");
+    }
+	function UnityCallPauseGameJs() {
+      console.log("untiy call pause game");
+    }
+	function UnityCallChangeLevelJs() {
+      console.log("untiy call change level");
+    }
+    function UnityCallLevelUpJs() {
+      console.log("untiy call level up");
+    }
+</script>
+  <script src="Build/UnityLoader.js"></script>
+  <script>
+   UnityLoader.compatibilityCheck=function(e,t,r){t();};
+ var gameInstance = UnityLoader.instantiate("gameContainer", "Build/GeometryDashBreeze_.json", {onProgress: UnityProgress});
+  function UnityProgress(gameInstance, progress) {
+    if (!gameInstance.Module) {
+      return;
+    }
+    const loader = document.querySelector("#loader");
+    if (!gameInstance.progress) {
+      const progress = document.querySelector("#loader .progress");
+      progress.style.display = "block";
+      gameInstance.progress = progress.querySelector(".full");
+      loader.querySelector(".spinner").style.display = "none";
+    }
+    gameInstance.progress.style.transform = `scaleX(${progress})`;
+    if (progress === 1 && !gameInstance.removeTimeout) {
+      gameInstance.removeTimeout = setTimeout(function() {
+          loader.style.display = "none";
+      }, 2000);
+    }
+  }
+
+var theElement = document.getElementById("gameContainer");
+theElement.addEventListener("mouseup", tapOrClick, false);
+theElement.addEventListener("touchend", tapOrClick, false);
+
+function tapOrClick(event) {
+        fullScreenAPI();
+        event.preventDefault();
+        return false;
+    }
+    function HiddenClass(instane_game) {
+        var widthPage = window.innerWidth;
+        var heightPage = window.innerHeight;
+        if (heightPage > widthPage) {
+            document.getElementById('orientation').style.display = "block";            
+            document.getElementById("gameContainer").style.display = "none"; 
+            gameInstance.SendMessage('AudioMainController', 'JSCallUnity', 0);
+       }
+        else{
+            document.getElementById('orientation').style.display = "none";
+            document.getElementById("gameContainer").style.display = "block";
+            gameInstance.SendMessage('AudioMainController', 'JSCallUnity', 1);
+         }
+    }
+    function fullScreenAPI(){
+        var ua = navigator.userAgent.toLowerCase();
+        var isAndroid = ua.indexOf("android") > -1;
+            if(isAndroid) {
+                    GoFullScreen(document.documentElement);
+            }
+        }
+function GoFullScreen(element) {
+        if (!document.fullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement ) {
+            if(element.requestFullscreen && document.fullscreenEnabled){
+                element.requestFullscreen();
+            } 
+            else if(element.mozRequestFullScreen){
+                element.mozRequestFullScreen();
+            }
+            else if(element.webkitRequestFullscreen){
+                element.webkitRequestFullscreen();
+            } 
+            else if(element.msRequestFullscreen){
+                element.msRequestFullscreen();
+            }
+        }
+    }
+  </script>
+</html>
